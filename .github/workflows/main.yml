@@ -1,5 +1,5 @@
 yaml
- name: Flight App CI/CD
+ name: new-flight-app
  on:
  push:
  branches: [ main ]
