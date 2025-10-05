@@ -1,15 +1,29 @@
- 
 yaml
  name: Flight App CI/CD
- on:
- push:
- branches: [ main ]
- pull_request:
- branches: [ main ]
- jobs:
- test:
- runs-on: ubuntu--latest
- steps:
- -- uses: actions/checkout@v3
- -- name: Set up environment
- run: echo "Setting up environment"
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  run-postman-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Newman (Postman CLI)
+        run: npm install -g newman
+
+      - name: Run Postman Collection
+        run: |
+          newman run https://api.postman.com/collections/18223427-8ef84aaf-5985-4555-9c40-c59f7bc7363f?apikey=${{ secrets.POSTMAN_API_KEY }}
+
+1
